@@ -41,7 +41,7 @@ class ArticleException(Exception):
 class Article(object):
     """Article objects abstract an online news article page
     """
-    def __init__(self, url, title='', source_url='', config=None, **kwargs):
+    def __init__(self, url, html='', title='', source_url='', config=None, **kwargs):
         """The **kwargs argument may be filled with config values, which
         is added into the config object
         """
@@ -99,7 +99,7 @@ class Article(object):
         self.summary = ''
 
         # This article's unchanged and raw HTML
-        self.html = ''
+        self.html = html
 
         # The HTML of this article's main node (most important part)
         self.article_html = ''
@@ -148,7 +148,8 @@ class Article(object):
         Don't normally call this method b/c it's good to multithread articles
         on a source (newspaper) level.
         """
-        self.download()
+        if not self.html:
+            self.download()
         self.parse()
         self.nlp()
 
@@ -525,7 +526,7 @@ class Article(object):
             raise ArticleException()
 
     def throw_if_not_parsed_verbose(self):
-        """Parse `is_parsed` status -> log readable status 
+        """Parse `is_parsed` status -> log readable status
         -> maybe throw ArticleException
         """
         if not self.is_parsed:
