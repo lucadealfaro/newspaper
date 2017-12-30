@@ -164,7 +164,7 @@ class Article(object):
         """
         if self.html is not None:
             return
-        
+
         if input_html is None:
             try:
                 html = network.get_html_2XX_only(self.url, self.config)
@@ -525,11 +525,9 @@ class Article(object):
         if self.html: return
         if self.download_state == ArticleDownloadState.NOT_STARTED:
             print('You must `download()` an article first!')
-            raise ArticleException()
         elif self.download_state == ArticleDownloadState.FAILED_RESPONSE:
             print('Article `download()` failed with %s on URL %s' %
                   (self.download_exception_msg, self.url))
-            raise ArticleException()
 
     def throw_if_not_parsed_verbose(self):
         """Parse `is_parsed` status -> log readable status
@@ -537,4 +535,3 @@ class Article(object):
         """
         if not self.is_parsed:
             print('You must `parse()` an article first!')
-            raise ArticleException()
