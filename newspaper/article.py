@@ -100,6 +100,8 @@ class Article(object):
 
         # This article's unchanged and raw HTML
         self.html = html
+        if html:
+            self.download_state = ArticleDownloadState.SUCCESS
 
         # The HTML of this article's main node (most important part)
         self.article_html = ''
@@ -517,6 +519,7 @@ class Article(object):
         """Parse ArticleDownloadState -> log readable status
         -> maybe throw ArticleException
         """
+        if self.html: return
         if self.download_state == ArticleDownloadState.NOT_STARTED:
             print('You must `download()` an article first!')
             raise ArticleException()
