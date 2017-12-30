@@ -162,6 +162,9 @@ class Article(object):
         recursion_counter (currently 1) stops refreshes that are potentially
         infinite
         """
+        if self.html is not None:
+            return
+        
         if input_html is None:
             try:
                 html = network.get_html_2XX_only(self.url, self.config)
